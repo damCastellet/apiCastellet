@@ -37,6 +37,22 @@ app.get("/jugadors", (req, res) => {
   });
 });
 
+// Obtenir jugadors d'una partida específica
+app.get("/jugadors/partida/:numeroPartida", (req, res) => {
+  const { numeroPartida } = req.params;
+
+  const sql = "SELECT * FROM jugadors WHERE numeroPartida = ?";
+  
+  db.query(sql, [numeroPartida], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    
+  
+    res.json(result);
+  });
+});
+
 
 
 // Afegir un nou jugador (grup)
