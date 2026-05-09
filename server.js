@@ -8,12 +8,17 @@ const app = express();
 app.use(express.json());
 app.use(cors()); 
 
-// Connexió MySQL
-const db = mysql.createConnection({
+// Connexió MySQL 
+const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  keepAliveInitialDelay: 10000, // Envia un ping cada 10 segons
+  enableKeepAlive: true
 });
 
 db.connect((err) => {
